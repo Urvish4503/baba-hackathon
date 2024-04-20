@@ -37,6 +37,24 @@ const HomePage: React.FC = () => {
                 thumbnail: "./../assets/wallhaven-d66zvmrsz.png",
                 courseTitle: `lalalal`,
             },
+            {
+                id: 5,
+                title: "hih",
+                thumbnail: "./../assets/wallhaven-d66zvmrsz.png",
+                courseTitle: `lalalal`,
+            },
+            {
+                id: 6,
+                title: "hih",
+                thumbnail: "./../assets/wallhaven-d66zvmrsz.png",
+                courseTitle: `lalalal`,
+            },
+            {
+                id: 7,
+                title: "hih",
+                thumbnail: "./../assets/wallhaven-d66zvmrsz.png",
+                courseTitle: `lalalal`,
+            },
         ];
 
         setVideos(video);
@@ -53,7 +71,7 @@ const HomePage: React.FC = () => {
     // };
 
     return (
-        <div className="pl-36 container mx-auto px-4 py-8">
+        <div className="pl-36 mt-12 container mx-auto px-4 py-8">
             {/* <h1 className="text-2xl font-bold mb-4 text-ctp-text">Courses</h1> */}
             <div className="pl-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {videos.map(video => (

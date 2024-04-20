@@ -96,8 +96,8 @@ const QuizForm: React.FC = () => {
 
     return (
         <div className="bg-ctp-base text-ctp-text min-h-screen flex flex-col justify-center items-center">
-            <h2 className="text-3xl font-bold mb-6">Quiz Form</h2>
-            <form onSubmit={handleSubmit} className="w-full max-w-md">
+            <h2 className="text-3xl font-bold mt-4 mb-6">Quiz Form</h2>
+            <form onSubmit={handleSubmit} className="w-full max-w-xl ">
                 <div className="bg-ctp-surface1 rounded-lg p-6">
                     {Array.isArray(questions) && questions.length > 0 ? (
                         questions.map(question => (
@@ -143,14 +143,14 @@ const QuizForm: React.FC = () => {
                     )}
                 </div>
                 <div className="mt-6 flex justify-center">
+                </div>
+            </form>
                     <button
                         type="submit"
                         className="bg-ctp-blue text-ctp-base px-4 py-2 rounded-md hover:bg-ctp-blue-dark transition-colors"
                     >
                         Submit
                     </button>
-                </div>
-            </form>
         </div>
     );
 };

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const NavBar = () => {
     return (
-        <div>
+        <div className="w-full">
             <nav className="flex items-center justify-between p-4 bg-ctp-surface0 text-ctp-text">
                 <div className="flex-grow">
                     <form className="pl-64 flex justify-self-end w-3/6">
