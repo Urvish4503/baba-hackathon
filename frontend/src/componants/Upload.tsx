@@ -99,7 +99,7 @@ const Upload: FC = () => {
     };
 
     return (
-        <div className="w-full bg-ctp-base h-screen">
+        <div className="w-full bg-ctp-base h-full">
             <div className="container mx-auto px-4 py-8 max-w-[60rem]">
                 <div className="mb-8">
                     <input
