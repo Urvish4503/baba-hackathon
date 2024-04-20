@@ -1,16 +1,15 @@
+import axios from "axios";
 import { useState, FC } from "react";
 
 interface Section {
     id: number;
-    title: string;
     subSections: SubSection[];
 }
 
 interface SubSection {
     id: number;
-    imageUrl: string;
     title: string;
-    videoUrl: string;
+    videoKey: string;
 }
 
 const Upload: FC = () => {
@@ -20,10 +19,10 @@ const Upload: FC = () => {
     const addSection = () => {
         const newSection: Section = {
             id: sections.length + 1,
-            title: "",
             subSections: [],
         };
         setSections([...sections, newSection]);
+        setActiveSection(newSection.id);
     };
 
     const addSubSection = (sectionId: number) => {
@@ -32,8 +31,7 @@ const Upload: FC = () => {
                 const newSubSection: SubSection = {
                     id: section.subSections.length + 1,
                     title: "",
-                    imageUrl: "",
-                    videoUrl: "",
+                    videoKey: "",
                 };
                 return {
                     ...section,
@@ -49,25 +47,56 @@ const Upload: FC = () => {
         setActiveSection(activeSection === sectionId ? null : sectionId);
     };
 
-    const handleVideoUpload = (
-        sectionId: number,
-        subSectionId: number,
-        file: File,
-    ) => {
-        // Handle video upload logic here
-        console.log(
-            `Uploading video for section ${sectionId}, sub-section ${subSectionId}: ${file.name}`,
-        );
+    const handleVideoUpload = async (file: File, _subSecionId: number) => {
+        if (!file) {
+            // Display error message or handle case where no file is selected
+            console.error("No file selected.");
+            return;
+        }
+
+        const key = `${Date.now()}`;
+
+        const data = {
+            vidoType: "video/mp4",
+            key: key,
+        };
+
+        const url = await axios.get("http://localhost:8800/api/upload/video", {
+            data,
+        });
+
+        const formData = new FormData();
+
+        formData.append("video", file);
+
+        try {
+            const response = await axios.put(`${url}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            console.log("Upload successful!", response);
+        } catch (error) {
+            console.error("Error uploading file:", error);
+        }
     };
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <button
-                className="bg-ctp-blue text-white font-bold py-2 px-4 rounded mb-4"
-                onClick={addSection}
-            >
-                Add Section
-            </button>
+            <div className="flex flex-row">
+                <button
+                    className="bg-ctp-blue text-white font-bold py-2 px-4 rounded mb-4"
+                    onClick={addSection}
+                >
+                    Add Section
+                </button>
+                <button
+                    className="bg-ctp-blue text-white font-bold py-2 px-4 rounded mb-4"
+                    onClick={() => console.log(`${JSON.stringify(sections)}`)}
+                >
+                    Upload
+                </button>
+            </div>
             <div>
                 {sections.map(section => (
                     <div key={section.id} className="mb-4">
@@ -98,7 +127,6 @@ const Upload: FC = () => {
                                     type="text"
                                     placeholder="Enter section title"
                                     className="w-full mb-4 px-3 py-2 bg-ctp-surface0 text-ctp-text border border-ctp-surface2 rounded outline-none focus:border-ctp-lavender"
-                                    value={section.title}
                                     onChange={e => {
                                         const updatedSections = sections.map(
                                             s => {
@@ -171,13 +199,13 @@ const Upload: FC = () => {
                                                     htmlFor={`video-upload-${section.id}-${subSection.id}`}
                                                     className="bg-ctp-blue text-white font-bold py-2 px-4 rounded cursor-pointer"
                                                 >
-                                                    Upload Video
+                                                    Select Video
                                                 </label>
                                                 <input
                                                     type="file"
                                                     id={`video-upload-${section.id}-${subSection.id}`}
-                                                    className="hidden"
-                                                    accept="video/*"
+                                                    className="invisible"
+                                                    accept="video/mp4"
                                                     onChange={e => {
                                                         if (
                                                             e.target.files &&
@@ -185,19 +213,18 @@ const Upload: FC = () => {
                                                                 .length > 0
                                                         ) {
                                                             handleVideoUpload(
-                                                                section.id,
-                                                                subSection.id,
                                                                 e.target
                                                                     .files[0],
+                                                                subSection.id,
                                                             );
                                                         }
                                                     }}
                                                 />
-                                                {subSection.videoUrl && (
+                                                {subSection.videoKey && (
                                                     <div className="mt-2">
                                                         <video
                                                             src={
-                                                                subSection.videoUrl
+                                                                subSection.videoKey
                                                             }
                                                             controls
                                                             className="max-w-full h-auto"
