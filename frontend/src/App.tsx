@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import NavBar from "./componants/NavBar";
 
 import Upload from "./componants/Upload";
+import QuizForm from "./pages/Quiz";
 
 const Layout: FC = () => {
     return (
@@ -27,11 +28,6 @@ const router = createBrowserRouter([
                 path: "/",
                 element: <div>hi</div>,
             },
-            // TODO: this shit
-            // {
-            //     path: "/contact",
-            //     element: <Contact />,
-            // },
         ],
     },
     {
@@ -45,6 +41,10 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login />,
+    },
+    {
+        path: "/quize",
+        element: <QuizForm />,
     },
 ]);
 
