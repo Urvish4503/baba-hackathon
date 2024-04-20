@@ -13,11 +13,63 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id         String      @id @default(uuid())
-  username   String   @unique
-  password   String
-  email      String   @unique
-  firstName  String?
-  lastName   String?
+// faculty schema
+model Faculty {
+  id        Int      @id @default(autoincrement())
+  firstName String
+  lastName  String
+  email     String   @unique
+  password  String
+  courses   Course[] // Courses created by this faculty
+}
+
+// student schema
+model Student {
+  id       Int    @id @default(autoincrement())
+  username String
+  email    String @unique
+  password String
+}
+
+// course schema
+model Course {
+  id           Int      @id @default(autoincrement())
+  title        String
+  category     String
+  description  String
+  outcomes     String
+  level        String
+  createdById  Int
+  thumbnailKey String
+  createdBy    Faculty  @relation(fields: [createdById], references: [id])
+  Module       Module[]
+}
+
+// Module schema
+model Module {
+  id       Int       @id @default(autoincrement())
+  courseId Int
+  sections Section[] // Sections within this module
+  Course   Course    @relation(fields: [courseId], references: [id])
+}
+
+// Section model
+model Section {
+  id         Int        @id @default(autoincrement())
+  title      String
+  moduleId   Int
+  module     Module     @relation(fields: [moduleId], references: [id])
+  videoKey   String
+  transcript String
+  questions  Question[]
+}
+
+// Question model
+model Question {
+  id        Int      @id @default(autoincrement())
+  sectionId Int
+  section   Section  @relation(fields: [sectionId], references: [id])
+  question  String
+  options   String[]
+  answers   String
 }
