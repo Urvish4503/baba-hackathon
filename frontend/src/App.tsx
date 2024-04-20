@@ -1,35 +1,61 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
+import { FC } from "react";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import NavBar from "./componants/NavBar";
 
-function App() {
-  const [count, setCount] = useState(0);
+const Layout: FC = () => {
+    return (
+        <div className="app h-screen">
+            <NavBar />
+            <div className="flex flex-row h-3/4">
+                <Outlet />
+            </div>
+        </div>
+    );
+};
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Layout />,
+        children: [
+            {
+                path: "/",
+                element: <div>hi</div>,
+            },
+            // TODO: this shit
+            // {
+            //     path: "/contact",
+            //     element: <Contact />,
+            // },
+        ],
+    },
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
-}
+    {
+        path: "/signup",
+        element: <Signup />,
+    },
+    {
+        path: "/login",
+        element: <Login />,
+    },
+]);
+
+// const PrivateRoutes = () => {
+//     const token = localStorage.getItem("token");
+//     let auth = { token: token };
+//     return auth.token ? <Outlet /> : <Navigate to="/signin" />;
+// };
+
+const App: FC = () => {
+    return (
+        <>
+            <div>
+                <RouterProvider router={router} />
+            </div>
+        </>
+    );
+};
 
 export default App;
