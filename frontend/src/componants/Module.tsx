@@ -70,8 +70,7 @@ const Module: React.FC = () => {
         );
     };
 
-    const videoUrl =
-        "./../assets/tow_towers/The.Lord.Of.The.Rings.The.Two.Towers.2002.EXTENDED.2160p.4K.BluRay.x265.10bit.AAC5.1-[YTS.MX].mkv";
+    // const videoUrl ="./../assets/tow_towers/The.Lord.Of.The.Rings.The.Two.Towers.2002.EXTENDED.2160p.4K.BluRay.x265.10bit.AAC5.1-[YTS.MX].mkv";
     return (
         <div className="bg-ctp-base text-ctp-text min-h-screen p-6">
             <h2 className="text-3xl font-bold mb-6">Course Modules</h2>
@@ -130,14 +129,15 @@ const Module: React.FC = () => {
                                         {openSubsectionId === subsection.id && (
                                             <div className="mt-4">
                                                 <video
+                                                src="https://youtu.be/CKmPvmDXPG8?si=dYLESFvUVt9pqIfn"
                                                     controls
                                                     className="w-full rounded-lg"
                                                 >
-                                                    <source src="../../../../../Videos/movies/Legend (2015) [1080p] [YTS.AG]/Legend.2015.1080p.BluRay.x264-[YTS.AG].mp4" />
+                                                    <source src="https://youtu.be/CKmPvmDXPG8?si=dYLESFvUVt9pqIfn" />
                                                 </video>
 
                                                 <Link to="/quize">
-                                                    <button className="bg-ctp-blue text-white font-bold py-2 px-4 rounded mb-4">
+                                                    <button className="bg-ctp-blue text-white font-bold py-2 px-4 rounded mt-2 mb-4">
                                                         take quize
                                                     </button>
                                                 </Link>

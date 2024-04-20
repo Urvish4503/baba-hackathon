@@ -1,56 +1,52 @@
-import axios from "axios";
 import { useState, FC } from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from 'react-router-dom'
 
-const Sighup: FC = () => {
+const FacultySignup: FC = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    // const [confirmPassword, setConfirmPassword] = useState("");
-    const navigate = useNavigate()
 
-    // const handleRegister = async(e: React.FormEvent<HTMLFormElement>) => {
-    //     e.preventDefault();
-    //     // Handle registration logic here
-    //     console.log("Username:", username);
-    //     console.log("Email:", email);
-    //     console.log("Password:", password);
-    // };
-
-    const handlesubmit = async ()=>{
-            const response=  await axios.post('http://127.0.0.1:8800/api/auth/signup',{
-                username,
-                password,
-                email
-              },{
-                withCredentials: false,
-            })
-             localStorage.setItem("token",response.data.token)
-             navigate("/home")
-            }
-
-
+    const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        // Handle registration logic here
+        console.log("Username:", username);
+        console.log("Email:", email);
+        console.log("Password:", password);
+    };
 
     return (
-        <div className="flex justify-center items-center h-screen bg-logi-page-two text-ctp-text">
+        <div className="flex justify-center items-center h-screen bg-ctp-base text-ctp-text">
             <div className="w-96 p-8 bg-ctp-surface0 rounded-lg shadow-md">
-                <h1 className="text-2xl font-bold mb-6 text-center">Sign Up</h1>
-                <form 
-                // onSubmit={handleRegister}
-                >
+                <h1 className="text-2xl font-bold mb-6 text-center">Faculty-CheckIn</h1>
+                <form onSubmit={handleRegister}>
                     <div className="mb-4">
                         <label
                             htmlFor="username"
                             className="block mb-1 text-ctp-subtext1"
                         >
-                            Username
+                            FirstName
                         </label>
                         <input
                             type="text"
                             id="username"
                             className="w-full px-3 py-2 bg-ctp-surface1 text-text border border-ctp-surface2 rounded outline-none focus:border-ctp-lavender"
-                            placeholder="Enter a username"
+                            placeholder="Enter a firstname"
+                            value={username}
+                            onChange={e => setUsername(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label
+                            htmlFor="username"
+                            className="block mb-1 text-ctp-subtext1"
+                        >
+                            LastName
+                        </label>
+                        <input
+                            type="text"
+                            id="username"
+                            className="w-full px-3 py-2 bg-ctp-surface1 text-text border border-ctp-surface2 rounded outline-none focus:border-ctp-lavender"
+                            placeholder="Enter a lastmane"
                             value={username}
                             onChange={e => setUsername(e.target.value)}
                         />
@@ -87,15 +83,17 @@ const Sighup: FC = () => {
                             onChange={e => setPassword(e.target.value)}
                         />
                     </div>
+                     <Link to={"/upload"}>
+
                     <button
-                        onClick={handlesubmit}
                         type="submit"
                         className="w-full py-2 bg-ctp-blue text-base font-bold rounded hover:bg-ctp-sapphire"
-                    >
-                        Sign Up
+                        >
+                        CheckIn
                     </button>
+                        </Link>
                 </form>
-                <div className="mt-4 text-center">
+                {/* <div className="mt-4 text-center">
                     <p className="text-overlay1">
                         Already have an account?{" "}
                         <Link
@@ -105,10 +103,10 @@ const Sighup: FC = () => {
                             Log In
                         </Link>
                     </p>
-                </div>
+                </div> */}
             </div>
         </div>
     );
 };
 
-export default Sighup;
+export default FacultySignup;

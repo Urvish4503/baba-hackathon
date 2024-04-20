@@ -9,6 +9,7 @@ import Upload from "./componants/Upload";
 import QuizForm from "./pages/Quiz";
 import HomePage from "./pages/Home";
 import Course from "./pages/Course";
+import FacultySignup from "./pages/FacultySignup";
 
 const Layout: FC = () => {
     return (
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
     {
         path: "/quize",
         element: <QuizForm />,
+    },
+    {
+        path: "/addFaculty",
+        element: <FacultySignup />,
     },
 ]);
 

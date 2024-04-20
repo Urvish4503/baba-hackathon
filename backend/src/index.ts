@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
-// import authRoutes from "./routes/auth";
+import authRoutes from "./routes/auth";
 import uploadRoutes from "./routes/upload";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -10,12 +10,12 @@ const app = express();
 dotenv.config();
 
 //middlewares
-app.use(cors({ credentials: true, origin: ["http://localhost:3000"] }));
+app.use(cors({ credentials: true, origin: ["http://localhost:5173","http://127.0.0.1:5173"] }));
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api/upload", uploadRoutes);
 
-//app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 // user Routes
 // app.use("/api/users", userRoutes);
 

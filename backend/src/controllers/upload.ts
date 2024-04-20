@@ -14,7 +14,7 @@ const s3 = new S3Client({ region: "ap-south-1" });
 const BUCKET = process.env.BUCKET;
 
 export const uploadImage = async (req: Request, res: Response, err: any) => {
-    const requestBody = uploadBody.safeParse(req.body.data);
+    const requestBody = uploadBody.safeParse(req.body);
 
     if (!requestBody.success) {
         return res.status(411).json({
@@ -48,7 +48,7 @@ export const uploadImage = async (req: Request, res: Response, err: any) => {
 // init();
 
 export const uploadVideo = async (req: Request, res: Response, err: any) => {
-    const requestBody = uploadBody.safeParse(req.body.data);
+    const requestBody = uploadBody.safeParse(req.body);
 
     if (!requestBody.success) {
         return res.status(411).json({

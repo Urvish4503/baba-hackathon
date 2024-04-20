@@ -74,13 +74,15 @@ const Upload: FC = () => {
         const key = `${Date.now()}`;
 
         const data = {
-            vidoType: "video/mp4",
+            Type: "video/mp4",
             key: key,
         };
 
-        const url = await axios.get("http://localhost:8800/api/upload/video", {
+        const url = await axios.post("http://localhost:8800/api/upload/video", {
             data,
         });
+        console.log(url)
+
 
         const formData = new FormData();
 
@@ -99,7 +101,7 @@ const Upload: FC = () => {
     };
 
     return (
-        <div className="w-full bg-ctp-base h-full">
+        <div className="w-full pt-4 pb-44 bg-ctp-base">
             <div className="container mx-auto px-4 py-8 max-w-[60rem]">
                 <div className="mb-8">
                     <input
@@ -216,6 +218,7 @@ const Upload: FC = () => {
                                     <h3 className="text-ctp-text font-bold">
                                         Section {section.id}
                                     </h3>
+                                 
                                     <span
                                         className={`text-ctp-blue ${
                                             activeSection === section.id
@@ -228,6 +231,7 @@ const Upload: FC = () => {
                                 </div>
                                 {activeSection === section.id && (
                                     <div className="bg-ctp-surface1 p-4 rounded">
+                                        
                                         <input
                                             type="text"
                                             placeholder="Enter section title"

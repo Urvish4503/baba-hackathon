@@ -5,8 +5,6 @@ const signupBody = z.object({
     username:z.string(),
     password:z.string(),
     email:z.string().email(),
-    firstName:z.string(),
-    lastName:z.string()
 })
 type SignupType = z.infer<typeof signupBody>;
 export { SignupType, signupBody };

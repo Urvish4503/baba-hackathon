@@ -1,16 +1,27 @@
+import axios from "axios";
 import { FC, useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login: FC = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate()
 
-    const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleLogin = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // Handle login logic here
         console.log("Username:", email);
         console.log("Password:", password);
+
+        const response=  await axios.post('http://localhost:8800/api/auth/signup',{
+                password,
+                email
+              },{
+                withCredentials: false,
+            })
+             localStorage.setItem("token",response.data.token)
+             navigate("/home")
     };
 
     return (
