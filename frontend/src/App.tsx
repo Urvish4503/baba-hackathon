@@ -5,33 +5,12 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import NavBar from "./componants/NavBar";
 
-const Layout: FC = () => {
-    return (
-        <div className="app h-screen">
-            <NavBar />
-            <div className="flex flex-row h-3/4">
-                <Outlet />
-            </div>
-        </div>
-    );
-};
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Layout />,
-        children: [
-            {
-                path: "/",
-                element: <div>hi</div>,
-            },
-            // TODO: this shit
-            // {
-            //     path: "/contact",
-            //     element: <Contact />,
-            // },
-        ],
-    },
+import Upload from "./componants/Upload";
 
+    {
+        path: "/upload",
+        element: <Upload />,
+    },
     {
         path: "/signup",
         element: <Signup />,
@@ -41,12 +20,6 @@ const router = createBrowserRouter([
         element: <Login />,
     },
 ]);
-
-// const PrivateRoutes = () => {
-//     const token = localStorage.getItem("token");
-//     let auth = { token: token };
-//     return auth.token ? <Outlet /> : <Navigate to="/signin" />;
-// };
 
 const App: FC = () => {
     return (
