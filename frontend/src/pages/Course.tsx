@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Module from "../componants/Module";
 
 interface CourseData {
     title: string;
@@ -19,7 +20,7 @@ const Course: React.FC = () => {
         };
 
         setCourse(c);
-    });
+    }, []);
 
     return (
         <section className="text-gray-600 body-font bg-ctp-base">
@@ -63,6 +64,9 @@ const Course: React.FC = () => {
                             </p>
                         </div>
                     </div>
+                </div>
+                <div>
+                    <Module />
                 </div>
             </div>
         </section>
