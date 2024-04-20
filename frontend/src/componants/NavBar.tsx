@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const NavBar = () => {
     return (
         <div>
@@ -17,9 +19,11 @@ const NavBar = () => {
                         </button>
                     </form>
                 </div>
+                <Link to={"/login"}>
                 <button className="px-4 py-2 bg-ctp-blue text-ctp-text font-bold rounded hover:bg-ctp-sapphire">
                     Login
                 </button>
+                </Link>
             </nav>
         </div>
     );

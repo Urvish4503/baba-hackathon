@@ -29,7 +29,7 @@ const Course: React.FC = () => {
                         <img
                             alt="content"
                             className="object-cover object-center w-full"
-                            src="https://dummyimage.com/1200x500"
+                            src="https://i.stack.imgur.com/YADuL.png"
                         />
                     </div>
                     <h1 className="text-3xl font-bold mt-6 text-center">
@@ -64,7 +64,6 @@ const Course: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                put the shit here
             </div>
         </section>
     );
