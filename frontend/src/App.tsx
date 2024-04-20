@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import NavBar from "./componants/NavBar";
+import Upload from "./componants/Upload";
 
 const Layout: FC = () => {
     return (
@@ -31,7 +32,10 @@ const router = createBrowserRouter([
             // },
         ],
     },
-
+    {
+        path: "/upload",
+        element: <Upload />,
+    },
     {
         path: "/signup",
         element: <Signup />,
