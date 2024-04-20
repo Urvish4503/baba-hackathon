@@ -136,11 +136,10 @@ const Module: React.FC = () => {
                                                     <source src="../../../../../Videos/movies/Legend (2015) [1080p] [YTS.AG]/Legend.2015.1080p.BluRay.x264-[YTS.AG].mp4" />
                                                 </video>
 
-                                                <Link
-                                                    to="/quize"
-                                                    className="bg-ctp-blue text-ctp-base px-4 py-2 rounded-md hover:bg-ctp-blue-dark transition-colors"
-                                                >
-                                                    Take Quiz
+                                                <Link to="/quize">
+                                                    <button className="bg-ctp-blue text-white font-bold py-2 px-4 rounded mb-4">
+                                                        Add Section
+                                                    </button>
                                                 </Link>
                                             </div>
                                         )}
