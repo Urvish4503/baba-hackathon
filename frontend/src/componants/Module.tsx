@@ -138,7 +138,7 @@ const Module: React.FC = () => {
 
                                                 <Link to="/quize">
                                                     <button className="bg-ctp-blue text-white font-bold py-2 px-4 rounded mb-4">
-                                                        Add Section
+                                                        take quize
                                                     </button>
                                                 </Link>
                                             </div>
