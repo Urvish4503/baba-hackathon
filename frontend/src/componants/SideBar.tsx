@@ -5,14 +5,62 @@ const SideBar = () => {
                 <h1 className="text-2xl font-bold mb-4">Sidebar</h1>
                 {/* Add sidebar content here */}
                 <ul>
-                    <li>
+                    <li className="border-b">
                         <a
-                            href="#"
+                            href="/home"
                             className="block py-2 px-4 rounded hover:bg-ctp-surface1"
                         >
                             Home
                         </a>
                     </li>
+                    <li className="">
+                        <a
+                            href="/home"
+                            className="block py-2 px-4 rounded hover:bg-ctp-surface1"
+                        >
+                            JAVA
+                        </a>
+                    </li> <li className="">
+                        <a
+                            href="/home"
+                            className="block py-2 px-4 rounded hover:bg-ctp-surface1"
+                        >
+                            DSA
+                        </a>
+                    </li> <li className="">
+                        <a
+                            href="/home"
+                            className="block py-2 px-4 rounded hover:bg-ctp-surface1"
+                        >
+                            Python
+                        </a>
+                    </li>
+                    <li className="">
+                        <a
+                            href="/home"
+                            className="block py-2 px-4 rounded hover:bg-ctp-surface1"
+                        >
+                            HTML
+                        </a>
+                    </li>
+                    <li className="border-b">
+                        <a
+                            href="/home"
+                            className="block py-2 px-4 rounded hover:bg-ctp-surface1"
+                        >
+                            C
+                        </a>
+                    </li>
+                   <li className="border-b">
+                        <a
+                            href="/home"
+                            className="block py-2 px-4 rounded hover:bg-ctp-surface1"
+                        >
+                            Add course
+                        </a>
+                    </li>
+                    
+
                     <li>
                         <a
                             href="#"

@@ -54,7 +54,7 @@ const HomePage: React.FC = () => {
 
     return (
         <div className="pl-36 container mx-auto px-4 py-8">
-            <h1 className="text-2xl font-bold mb-4 text-ctp-text">Courses</h1>
+            {/* <h1 className="text-2xl font-bold mb-4 text-ctp-text">Courses</h1> */}
             <div className="pl-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {videos.map(video => (
                     <Link
@@ -73,9 +73,9 @@ const HomePage: React.FC = () => {
                                     className="w-full h-48 object-cover"
                                 />
                                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                                    <button className="bg-ctp-blue text-ctp-text font-bold py-2 px-4 rounded">
+                                    {/* <button className="bg-ctp-blue text-ctp-text font-bold py-2 px-4 rounded">
                                         Watch
-                                    </button>
+                                    </button> */}
                                 </div>
                             </div>
                             <div className="p-4">

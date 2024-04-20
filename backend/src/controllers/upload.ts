@@ -4,39 +4,71 @@ import {
     PutObjectCommand,
     S3Client,
 } from "@aws-sdk/client-s3";
+import { NextFunction, Request, Response } from "express";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { string } from "zod";
+import { signinBody } from "../models/user";
+import { UploadType, uploadBody } from "../models/upolad";
 
 const s3 = new S3Client({ region: "ap-south-1" });
 const BUCKET = process.env.BUCKET;
 
-export const uploadImage = async ({ imageType }: { imageType: string }) => {
-    const key = ``;
+export const uploadImage = async (req: Request, res: Response, err: any) => {
+    const requestBody = uploadBody.safeParse(req.body.data);
+
+    if (!requestBody.success) {
+        return res.status(411).json({
+            message: "Incorrect inputs",
+        });
+    }
+    const userDetails: UploadType = requestBody.data;
+    // const key = key;
     const command = new PutObjectCommand({
         Bucket: BUCKET,
-        Key: key,
-        ContentType: imageType,
+        Key: userDetails.key,
+        ContentType: userDetails.Type,
     });
 
-    try {
-        await s3.send(command);
-        return { key };
-    } catch (error) {
-        return { error };
-    }
+    const url = await getSignedUrl(s3,command);
+    return url;
+    // try {
+    //     await s3.send(command);
+    //     return { key };
+    // } catch (error) {
+    //     return { error };
+    // }
 };
 
-export const uploadVideo = async ({ vidoType }: { vidoType: string }) => {
-    const key = ``;
+// const init = async()=>{
+//     console.log("Url for :",
+//     await uploadImage({imageType:"imageType",key:"abc/12"})
+//     )
+// }
+
+// init();
+
+export const uploadVideo = async (req: Request, res: Response, err: any) => {
+    const requestBody = uploadBody.safeParse(req.body.data);
+
+    if (!requestBody.success) {
+        return res.status(411).json({
+            message: "Incorrect inputs",
+        });
+    }
+    const userDetails: UploadType = requestBody.data;
+
     const command = new PutObjectCommand({
         Bucket: BUCKET,
-        Key: key,
-        ContentType: vidoType,
+        Key: userDetails.key,
+        ContentType: userDetails.Type,
     });
+    const url = await getSignedUrl(s3,command);
+    return url;
 
-    try {
-        await s3.send(command);
-        return { key };
-    } catch (error) {
-        return { error };
-    }
+    // try {
+    //     await s3.send(command);
+    //     return { key };
+    // } catch (error) {
+    //     return { error };
+    // }
 };
