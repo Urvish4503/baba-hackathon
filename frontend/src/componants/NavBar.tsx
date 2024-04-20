@@ -1,24 +1,9 @@
-import { useState, FC } from "react";
-import SideBar from "./SideBar";
-
-const NavBar: FC = () => {
-    const [showSidebar, setShowSidebar] = useState(false);
-
-    const toggleSidebar = () => {
-        setShowSidebar(!showSidebar);
-    };
-
+const NavBar = () => {
     return (
         <div>
             <nav className="flex items-center justify-between p-4 bg-ctp-surface0 text-ctp-text">
-                <button
-                    className="text-2xl font-bold focus:outline-none"
-                    onClick={toggleSidebar}
-                >
-                    &#9776;
-                </button>
                 <div className="flex-grow">
-                    <form className="flex items-center">
+                    <form className="pl-64 flex justify-self-end w-3/6">
                         <input
                             type="text"
                             placeholder="Search..."
@@ -36,8 +21,6 @@ const NavBar: FC = () => {
                     Login
                 </button>
             </nav>
-
-            <SideBar show={showSidebar} onClose={toggleSidebar} />
         </div>
     );
 };

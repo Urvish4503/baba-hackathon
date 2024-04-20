@@ -1,15 +1,6 @@
-import { FC } from "react";
-
-const SideBar: FC<{ show: boolean; onClose: () => void }> = ({
-    show,
-    onClose,
-}) => {
+const SideBar = () => {
     return (
-        <div
-            className={`fixed inset-y-0 left-0 z-50 w-64 bg-ctp-surface0 text-ctp-text transition-transform duration-300 ${
-                show ? "translate-x-0" : "-translate-x-full"
-            }`}
-        >
+        <div className="fixed inset-y-0 left-0 z-50 w-64 bg-ctp-surface0 text-ctp-text">
             <div className="p-4">
                 <h1 className="text-2xl font-bold mb-4">Sidebar</h1>
                 {/* Add sidebar content here */}
@@ -40,13 +31,8 @@ const SideBar: FC<{ show: boolean; onClose: () => void }> = ({
                     </li>
                 </ul>
             </div>
-            <button
-                className="absolute top-4 right-4 text-2xl font-bold focus:outline-none"
-                onClick={onClose}
-            >
-                &times;
-            </button>
         </div>
     );
 };
+
 export default SideBar;
