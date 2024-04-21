@@ -15,12 +15,6 @@ interface QuizParams extends Record<string, string | undefined> {
     subsectionId: string;
 }
 
-interface DataToSend {
-    courseId: number;
-    moduleId: number;
-    sectionId: number;
-}
-
 const QuizForm: React.FC = () => {
     const [questions, setQuestions] = useState<Question[]>([]);
     const [responses, setResponses] = useState<{ [key: number]: string }>({});
@@ -39,15 +33,17 @@ const QuizForm: React.FC = () => {
         // Fetch questions from the server when the component mounts
         const fetchQuestions = async () => {
             try {
-                const data: DataToSend = {
-                    courseId: courseIdNum,
-                    moduleId: moduleIdNum,
-                    sectionId: 1,
-                };
-                const response = await axios.get<Question[]>(
-                    `http://localhost:8800/api/course/sections/1/questions`,
-                    { data },
+                const response = await axios.get(
+                    `http://localhost:8800/api/course/sections/${subsectionIdNum}/questions`,
+                    {
+                        params: {
+                            courseIdNum,
+                            moduleIdNum,
+                        },
+                    },
                 );
+
+                console.log(response.data);
                 setQuestions(response.data);
             } catch (error) {
                 console.error("Error fetching questions:", error);
