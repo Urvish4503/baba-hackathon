@@ -54,7 +54,7 @@ const HomePage: React.FC = () => {
                         >
                             <div className="relative">
                                 <img
-                                    src={"https://i.stack.imgur.com/YADuL.png"}
+                                    src={cours.thumbnail}
                                     alt={cours.title}
                                     className="w-full h-48 object-cover"
                                 />
