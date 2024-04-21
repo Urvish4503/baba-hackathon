@@ -51,7 +51,7 @@ const router = createBrowserRouter([
         element: <Login />,
     },
     {
-        path: "/quize",
+        path: "/quize/:courseId/:moduleId/:subsectionId",
         element: <QuizForm />,
     },
     {

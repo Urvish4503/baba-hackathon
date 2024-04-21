@@ -36,7 +36,7 @@ interface RouteParams {
 
 const CoursePage: React.FC = () => {
     const [course, setCourse] = useState<Course | null>(null);
-    const { id } = useParams<RouteParams>();
+    const { id } = useParams<RouteParams>() || "";
 
     const getCourse = async () => {
         try {
@@ -44,7 +44,7 @@ const CoursePage: React.FC = () => {
                 `http://localhost:8800/api/course/deatiledCourse/${id}`,
             );
             if (res.status === 200) {
-                console.log(res.data)
+                console.log(res.data);
                 const parsedResponse = CourseSchema.safeParse(res.data);
                 if (parsedResponse.success) {
                     setCourse(parsedResponse.data);
@@ -94,7 +94,9 @@ const CoursePage: React.FC = () => {
                     </div>
                 </div>
                 <div>
-                    {course && <Modules modules={course.course.Module} />}
+                    {course && id && (
+                        <Modules modules={course.course.Module} courseId={id} />
+                    )}
                 </div>
             </div>
         </section>

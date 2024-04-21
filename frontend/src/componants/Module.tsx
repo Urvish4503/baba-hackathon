@@ -14,9 +14,10 @@ interface Module {
 
 interface ModulesProps {
     modules: Module[];
+    courseId: string;
 }
 
-const Modules: FC<ModulesProps> = ({ modules }: ModulesProps) => {
+const Modules: FC<ModulesProps> = ({ modules, courseId }: ModulesProps) => {
     const [openModuleId, setOpenModuleId] = useState<number | null>(null);
     const [openSubsectionId, setOpenSubsectionId] = useState<number | null>(
         null,
@@ -98,7 +99,9 @@ const Modules: FC<ModulesProps> = ({ modules }: ModulesProps) => {
                                                         className="w-full rounded-lg"
                                                     />
 
-                                                    <Link to="/quize">
+                                                    <Link
+                                                        to={`/quize/${courseId}/${module.id}/${subsection.id}`}
+                                                    >
                                                         <button className="bg-ctp-blue text-white font-bold py-2 px-4 rounded mt-2 mb-4">
                                                             take quize
                                                         </button>

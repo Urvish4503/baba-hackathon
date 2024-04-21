@@ -1,5 +1,6 @@
 import React, { useState, useEffect, FormEvent } from "react";
-// import axios from "axios";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 interface Question {
     id: number;
@@ -8,79 +9,46 @@ interface Question {
     answer: string;
 }
 
+interface QuizParams extends Record<string, string | undefined> {
+    courseId: string;
+    moduleId: string;
+    subsectionId: string;
+}
+
+interface DataToSend {
+    courseId: number;
+    moduleId: number;
+    sectionId: number;
+}
+
 const QuizForm: React.FC = () => {
     const [questions, setQuestions] = useState<Question[]>([]);
     const [responses, setResponses] = useState<{ [key: number]: string }>({});
 
-    // TODO: Remove this after testing
+    const { courseId, moduleId, subsectionId } = useParams<QuizParams>();
+
+    const courseIdNum = parseInt(courseId ?? "0", 10);
+    const moduleIdNum = parseInt(moduleId ?? "0", 10);
+    const subsectionIdNum = parseInt(subsectionId ?? "0", 10);
+
+    console.log("Course ID:", courseIdNum);
+    console.log("Module ID:", moduleIdNum);
+    console.log("Subsection ID:", subsectionIdNum);
+
     useEffect(() => {
-        // Simulated quiz questions
-        const dummyQuestions: Question[] = [
-            {
-                id: 1,
-                question: "What is the capital of France?",
-                options: ["Paris", "London", "Berlin", "Rome"],
-                answer: "Paris",
-            },
-            {
-                id: 2,
-                question: "Which planet is known as the Red Planet?",
-                options: ["Earth", "Mars", "Venus", "Jupiter"],
-                answer: "Mars",
-            },
-            {
-                id: 3,
-                question: "Who wrote 'To Kill a Mockingbird'?",
-                options: [
-                    "Harper Lee",
-                    "Stephen King",
-                    "J.K. Rowling",
-                    "Ernest Hemingway",
-                ],
-                answer: "Harper Lee",
-            },
-            {
-                id: 4,
-                question: "What is the capital of France?",
-                options: ["Paris", "London", "Berlin", "Rome"],
-                answer: "Paris",
-            },
-            {
-                id: 5,
-                question: "Which planet is known as the Red Planet?",
-                options: ["Earth", "Mars", "Venus", "Jupiter"],
-                answer: "Mars",
-            },
-            {
-                id: 6,
-                question: "Who wrote 'To Kill a Mockingbird'?",
-                options: [
-                    "Harper Lee",
-                    "Stephen King",
-                    "J.K. Rowling",
-                    "Ernest Hemingway",
-                ],
-                answer: "Harper Lee",
-            },
-        ];
-
-        // Set the dummy questions to the state
-        setQuestions(dummyQuestions);
+        // Fetch questions from the server when the component mounts
+        const fetchQuestions = async () => {
+            try {
+                const response = await axios.get<Question[]>(
+                    `http://localhost:8800/api/course/sections/${subsectionId}/questions`,
+                );
+                setQuestions(response.data);
+            } catch (error) {
+                console.error("Error fetching questions:", error);
+            }
+        };
+        fetchQuestions();
     }, []);
-
-    // TODO: Add the url
-    // useEffect(() => {
-    //     // Fetch questions from the server when the component mounts
-    //     const fetchQuestions = async () => {
-    //         try {
-    //             const response = await axios.get<Question[]>("/api/questions");
-    //             setQuestions(response.data);
-    //         } catch (error) {
-    //             console.error("Error fetching questions:", error);
-    //         }
-    //     };
-    //     fetchQuestions();
-    // }, []);
 
     const handleResponseChange = (questionId: number, response: string) => {
         setResponses({ ...responses, [questionId]: response });
@@ -142,15 +110,14 @@ const QuizForm: React.FC = () => {
                         </p>
                     )}
                 </div>
-                <div className="mt-6 flex justify-center">
-                </div>
+                <div className="mt-6 flex justify-center"></div>
             </form>
-                    <button
-                        type="submit"
-                        className="bg-ctp-blue text-ctp-base px-4 py-2 rounded-md hover:bg-ctp-blue-dark transition-colors"
-                    >
-                        Submit
-                    </button>
+            <button
+                type="submit"
+                className="bg-ctp-blue text-ctp-base px-4 py-2 rounded-md hover:bg-ctp-blue-dark transition-colors"
+            >
+                Submit
+            </button>
         </div>
     );
 };

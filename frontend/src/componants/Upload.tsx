@@ -33,6 +33,7 @@ const Upload: FC = () => {
             level: courseLevel,
             thumbnailKey: courseThumbnail,
             modules: sections,
+            createdBy: 2, //FIXME: here get the id from auth
         };
         console.log(JSON.stringify(output));
         try {
