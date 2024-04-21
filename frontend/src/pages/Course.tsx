@@ -1,35 +1,57 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Modules from "../componants/Module";
+import { z } from "zod";
+import Modules from "./../componants/Module";
 
-interface CourseData {
-    title: string;
-    image: string;
-    thumbnailKey: string;
-    description: string;
-    outcome: string;
-    level: string;
-    Module: any;
-}
+const SectionSchema = z.object({
+    id: z.number(),
+    title: z.string(),
+    videoKey: z.string(),
+});
 
-const Course: React.FC<number> = (id: number) => {
-    const [course, setCourse] = useState<CourseData>();
+const ModuleSchema = z.object({
+    id: z.number(),
+    sections: z.array(SectionSchema),
+});
+
+const CourseSchema = z.object({
+    title: z.string(),
+    category: z.string(),
+    description: z.string(),
+    outcomes: z.string(),
+    level: z.string(),
+    thumbnailKey: z.string(),
+    Module: z.array(ModuleSchema),
+});
+
+type Course = z.infer<typeof CourseSchema>;
+
+const CoursePage: React.FC<{ id: number }> = ({ id }) => {
+    const [course, setCourse] = useState<Course | null>(null);
 
     const getCourse = async () => {
-        const res = await axios.get(
-            `http://localhost:8800/api/course/deatiledCourse/${id}`,
-        );
-        if (res.status !== 200) {
-            console.log(res);
-        } else {
-            setCourse(res.data.course);
-            console.log(course);
+        try {
+            const res = await axios.get(
+                `http://localhost:8800/api/course/deatiledCourse/${id}`,
+            );
+            if (res.status === 200) {
+                const parsedResponse = CourseSchema.safeParse(res.data);
+                if (parsedResponse.success) {
+                    setCourse(parsedResponse.data);
+                } else {
+                    console.error(parsedResponse.error);
+                }
+            } else {
+                console.log(res);
+            }
+        } catch (error) {
+            console.error(error);
         }
     };
 
     useEffect(() => {
         getCourse();
-    }, []);
+    }, [id]);
 
     return (
         <section className="text-gray-600 body-font bg-ctp-base">
@@ -54,17 +76,15 @@ const Course: React.FC<number> = (id: number) => {
                         <div className="sm:w-1/3 text-center sm:pr-8 sm:py-8">
                             <div className="flex flex-col items-center text-center justify-center">
                                 <div className="w-12 h-1 bg-indigo-500 rounded mt-2 mb-4"></div>
-                                <p className="text-base">{course?.outcome}</p>
+                                <p className="text-base">{course?.outcomes}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div>
-                    <Modules modules={course?.Module} />
-                </div>
+                <div>{course && <Modules modules={course.Module} />}</div>
             </div>
         </section>
     );
 };
 
-export default Course;
+export default CoursePage;

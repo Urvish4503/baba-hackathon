@@ -9,7 +9,7 @@ interface Module {
 interface Subsection {
     id: number;
     title: string;
-    video: string;
+    videoUrl: string;
 }
 
 interface ModulesProps {
@@ -38,80 +38,79 @@ const Modules: FC<ModulesProps> = ({ modules }: ModulesProps) => {
         <div className="bg-ctp-base text-ctp-text min-h-screen p-6">
             <h2 className="text-3xl font-bold mb-6">Course Modules</h2>
             <div className="bg-ctp-surface1 rounded-lg p-6">
-                {modules.map(module => (
-                    <div key={module.id} className="mb-6">
-                        <div
-                            className="flex justify-between items-center bg-ctp-surface2 p-4 rounded-lg cursor-pointer"
-                            onClick={() => toggleModule(module.id)}
-                        >
-                            {/* <h3 className="text-lg font-semibold"> */}
-                            {/*     {module.title} */}
-                            {/* </h3> */}
-                            <svg
-                                className={`w-6 h-6 transition-transform ${openModuleId === module.id ? "rotate-180" : ""}`}
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
+                {modules &&
+                    modules.map(module => (
+                        <div key={module.id} className="mb-6">
+                            <div
+                                className="flex justify-between items-center bg-ctp-surface2 p-4 rounded-lg cursor-pointer"
+                                onClick={() => toggleModule(module.id)}
                             >
-                                <polyline points="6 9 12 15 18 9" />
-                            </svg>
-                        </div>
-                        {openModuleId === module.id && (
-                            <div className="mt-4">
-                                {module.subsections.map(subsection => (
-                                    <div key={subsection.id} className="mb-4">
-                                        <div
-                                            className="flex justify-between items-center bg-ctp-surface0 p-4 rounded-lg cursor-pointer"
-                                            onClick={() =>
-                                                toggleSubsection(subsection.id)
-                                            }
-                                        >
-                                            <h4 className="text-base font-semibold">
-                                                {subsection.title}
-                                            </h4>
-                                            <svg
-                                                className={`w-6 h-6 transition-transform ${
-                                                    openSubsectionId ===
-                                                    subsection.id
-                                                        ? "rotate-180"
-                                                        : ""
-                                                }`}
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth="2"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            >
-                                                <polyline points="6 9 12 15 18 9" />
-                                            </svg>
-                                        </div>
-                                        {openSubsectionId === subsection.id && (
-                                            <div className="mt-4">
-                                                <video
-                                                    src="https://youtu.be/CKmPvmDXPG8?si=dYLESFvUVt9pqIfn"
-                                                    controls
-                                                    className="w-full rounded-lg"
-                                                >
-                                                    <source src="https://youtu.be/CKmPvmDXPG8?si=dYLESFvUVt9pqIfn" />
-                                                </video>
-
-                                                <Link to="/quize">
-                                                    <button className="bg-ctp-blue text-white font-bold py-2 px-4 rounded mt-2 mb-4">
-                                                        take quize
-                                                    </button>
-                                                </Link>
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
+                                <svg
+                                    className={`w-6 h-6 transition-transform ${openModuleId === module.id ? "rotate-180" : ""}`}
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
+                                    <polyline points="6 9 12 15 18 9" />
+                                </svg>
                             </div>
-                        )}
-                    </div>
-                ))}
+                            {openModuleId === module.id && (
+                                <div className="mt-4">
+                                    {module.subsections.map(subsection => (
+                                        <div
+                                            key={subsection.id}
+                                            className="mb-4"
+                                        >
+                                            <div
+                                                className="flex justify-between items-center bg-ctp-surface0 p-4 rounded-lg cursor-pointer"
+                                                onClick={() =>
+                                                    toggleSubsection(
+                                                        subsection.id,
+                                                    )
+                                                }
+                                            >
+                                                <h4 className="text-base font-semibold">
+                                                    {subsection.title}
+                                                </h4>
+                                                <svg
+                                                    className={`w-6 h-6 transition-transform ${openSubsectionId === subsection.id ? "rotate-180" : ""}`}
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                >
+                                                    <polyline points="6 9 12 15 18 9" />
+                                                </svg>
+                                            </div>
+                                            {openSubsectionId ===
+                                                subsection.id && (
+                                                <div className="mt-4">
+                                                    <video
+                                                        src={
+                                                            subsection.videoUrl
+                                                        }
+                                                        controls
+                                                        className="w-full rounded-lg"
+                                                    />
+
+                                                    <Link to="/quize">
+                                                        <button className="bg-ctp-blue text-white font-bold py-2 px-4 rounded mt-2 mb-4">
+                                                            take quize
+                                                        </button>
+                                                    </Link>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    ))}
             </div>
         </div>
     );
