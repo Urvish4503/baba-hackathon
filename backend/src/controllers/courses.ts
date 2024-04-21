@@ -11,6 +11,7 @@ import {
     QuestionsType,
 } from "../models/types";
 import prisma from "../lib/prisma";
+import { transcribe } from "../lib/stremTranscript";
 
 // create faculty
 export const createFaculty = async (req: Request, res: Response) => {
@@ -165,6 +166,7 @@ export const createCourse = async (req: Request, res: Response) => {
                         moduleId: createdModule.id,
                     },
                 });
+                transcribe({ key: sectionData.videoKey });
             }
         }
 
