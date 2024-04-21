@@ -93,7 +93,7 @@ const Modules: FC<ModulesProps> = ({ modules, courseId }: ModulesProps) => {
                                                 <div className="mt-4">
                                                     <video
                                                         src={
-                                                            subsection.videoKey
+                                                            "https://divya.b-cdn.net/1_HTML.mp4"
                                                         }
                                                         controls
                                                         className="w-full rounded-lg"

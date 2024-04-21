@@ -1,6 +1,11 @@
 import "./App.css";
 import { FC } from "react";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import {
+    createBrowserRouter,
+    RouterProvider,
+    Outlet,
+    Navigate,
+} from "react-router-dom";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import NavBar from "./componants/NavBar";
