@@ -39,8 +39,14 @@ const QuizForm: React.FC = () => {
         // Fetch questions from the server when the component mounts
         const fetchQuestions = async () => {
             try {
+                const data: DataToSend = {
+                    courseId: courseIdNum,
+                    moduleId: moduleIdNum,
+                    sectionId: 1,
+                };
                 const response = await axios.get<Question[]>(
-                    `http://localhost:8800/api/course/sections/${subsectionId}/questions`,
+                    `http://localhost:8800/api/course/sections/1/questions`,
+                    { data },
                 );
                 setQuestions(response.data);
             } catch (error) {
