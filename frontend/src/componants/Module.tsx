@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { FC, useState } from "react";
 import { Link } from "react-router-dom";
 
 interface Module {
@@ -11,7 +11,12 @@ interface Subsection {
     title: string;
     video: string;
 }
-const Module: React.FC<Module[]> = modules => {
+
+interface ModulesProps {
+    modules: Module[];
+}
+
+const Modules: FC<ModulesProps> = ({ modules }: ModulesProps) => {
     const [openModuleId, setOpenModuleId] = useState<number | null>(null);
     const [openSubsectionId, setOpenSubsectionId] = useState<number | null>(
         null,
@@ -112,4 +117,4 @@ const Module: React.FC<Module[]> = modules => {
     );
 };
 
-export default Module;
+export default Modules;

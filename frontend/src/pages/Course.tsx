@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Module from "../componants/Module";
+import Modules from "../componants/Module";
 
 interface CourseData {
     title: string;
@@ -9,6 +9,7 @@ interface CourseData {
     description: string;
     outcome: string;
     level: string;
+    Module: any;
 }
 
 const Course: React.FC<number> = (id: number) => {
@@ -59,7 +60,7 @@ const Course: React.FC<number> = (id: number) => {
                     </div>
                 </div>
                 <div>
-                    <Module />
+                    <Modules modules={course?.Module} />
                 </div>
             </div>
         </section>
