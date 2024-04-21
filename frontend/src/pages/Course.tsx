@@ -16,7 +16,7 @@ const ModuleSchema = z.object({
 });
 
 const CourseSchema = z.object({
-    courcee: z.object({
+    course: z.object({
         title: z.string(),
         category: z.string(),
         description: z.string(),
@@ -44,6 +44,7 @@ const CoursePage: React.FC = () => {
                 `http://localhost:8800/api/course/deatiledCourse/${id}`,
             );
             if (res.status === 200) {
+                console.log(res.data)
                 const parsedResponse = CourseSchema.safeParse(res.data);
                 if (parsedResponse.success) {
                     setCourse(parsedResponse.data);
@@ -74,26 +75,26 @@ const CoursePage: React.FC = () => {
                         />
                     </div>
                     <h1 className="text-3xl font-bold mt-6 text-center">
-                        {course?.courcee.title}
+                        {course?.course.title}
                     </h1>
                     <div className="flex flex-col sm:flex-row mt-10">
                         <div className="sm:w-2/3 sm:pl-8 sm:py-8 sm:border-l border-gray-200 sm:border-t-0 border-t mt-4 pt-4 sm:mt-0 text-center sm:text-left">
                             <p className="leading-relaxed text-lg mb-4">
-                                {course?.courcee.description}
+                                {course?.course.description}
                             </p>
                         </div>
                         <div className="sm:w-1/3 text-center sm:pr-8 sm:py-8">
                             <div className="flex flex-col items-center text-center justify-center">
                                 <div className="w-12 h-1 bg-indigo-500 rounded mt-2 mb-4"></div>
                                 <p className="text-base">
-                                    {course?.courcee.outcomes}
+                                    {course?.course.outcomes}
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    {course && <Modules modules={course.courcee.Module} />}
+                    {course && <Modules modules={course.course.Module} />}
                 </div>
             </div>
         </section>
