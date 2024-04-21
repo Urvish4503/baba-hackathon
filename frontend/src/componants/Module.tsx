@@ -100,7 +100,7 @@ const Modules: FC<ModulesProps> = ({ modules, courseId }: ModulesProps) => {
                                                     />
 
                                                     <Link
-                                                        to={`/quize/${courseId}/${module.id}/${subsection.id}`}
+                                                        to={`/quize/${courseId}`}
                                                     >
                                                         <button className="bg-ctp-blue text-white font-bold py-2 px-4 rounded mt-2 mb-4">
                                                             take quize

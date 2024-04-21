@@ -11,43 +11,26 @@ interface Question {
 
 interface QuizParams extends Record<string, string | undefined> {
     courseId: string;
-    moduleId: string;
-    subsectionId: string;
-}
-
-interface DataToSend {
-    courseId: number;
-    moduleId: number;
-    sectionId: number;
 }
 
 const QuizForm: React.FC = () => {
     const [questions, setQuestions] = useState<Question[]>([]);
     const [responses, setResponses] = useState<{ [key: number]: string }>({});
 
-    const { courseId, moduleId, subsectionId } = useParams<QuizParams>();
+    const { courseId } = useParams<QuizParams>();
 
     const courseIdNum = parseInt(courseId ?? "0", 10);
-    const moduleIdNum = parseInt(moduleId ?? "0", 10);
-    const subsectionIdNum = parseInt(subsectionId ?? "0", 10);
 
     console.log("Course ID:", courseIdNum);
-    console.log("Module ID:", moduleIdNum);
-    console.log("Subsection ID:", subsectionIdNum);
 
     useEffect(() => {
         // Fetch questions from the server when the component mounts
         const fetchQuestions = async () => {
             try {
-                const data: DataToSend = {
-                    courseId: courseIdNum,
-                    moduleId: moduleIdNum,
-                    sectionId: 1,
-                };
-                const response = await axios.get<Question[]>(
+                const response = await axios.get(
                     `http://localhost:8800/api/course/sections/1/questions`,
-                    { data },
                 );
+                console.log(JSON.stringify(response.data))
                 setQuestions(response.data);
             } catch (error) {
                 console.error("Error fetching questions:", error);
@@ -73,7 +56,7 @@ const QuizForm: React.FC = () => {
             <h2 className="text-3xl font-bold mt-4 mb-6">Quiz Form</h2>
             <form onSubmit={handleSubmit} className="w-full max-w-xl ">
                 <div className="bg-ctp-surface1 rounded-lg p-6">
-                    {Array.isArray(questions) && questions.length > 0 ? (
+                    {questions.length > 0 ? (
                         questions.map(question => (
                             <div key={question.id} className="mb-8">
                                 <p className="text-lg font-semibold mb-2">
