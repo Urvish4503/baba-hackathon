@@ -12,7 +12,7 @@ export const signin = async (req: Request, res: Response, err: any) => {
             message: "Incorrect inputs",
         });
     }
-    console.log("sucee1")
+    console.log("sucee1");
 
     const userDetails: SigninType = requestBody.data;
     const user = await prisma.student.findFirst({
@@ -21,7 +21,7 @@ export const signin = async (req: Request, res: Response, err: any) => {
             password: userDetails.password,
         },
     });
-    console.log("sucee2")
+    console.log("sucee2");
 
     if (user) {
         const token = jwt.sign(

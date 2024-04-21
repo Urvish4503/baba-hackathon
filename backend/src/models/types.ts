@@ -20,7 +20,7 @@ const sectionDetailSchema = z.object({
 const sectionSchema = z.object({
     title: z.string(),
     videoKey: z.string(),
-    transcript: z.string().optional(),
+    transcript: z.string().default("test"),
 });
 
 // module

@@ -57,10 +57,11 @@ export const courseDetail1 = async (req: Request, res: Response) => {
         // Fetch course summary details
         const Fetchcourse = await prisma.course.findMany({
             select: {
+                id: true,
                 title: true,
                 category: true,
-                description: true,
-                level: true,
+                //description: true,
+                //level: true,
                 thumbnailKey: true,
             },
         });
