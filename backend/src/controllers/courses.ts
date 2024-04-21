@@ -182,17 +182,8 @@ export const createCourse = async (req: Request, res: Response) => {
 
 // get quiz on based on Id
 export const getSectionDetails = async (req: Request, res: Response) => {
+    const sectionId = parseInt(req.params.sectionId);
     try {
-        const requestBody = sectionDetailSchema.safeParse(req.body);
-
-        if (!requestBody.success) {
-            return res.status(400).json({
-                message: "Incorrect inputs",
-                errors: requestBody.error.flatten(),
-            });
-        }
-        const { courseId, moduleId, sectionId } = req.body; // Extract courseId, moduleId, and sectionId from request body
-
         // Fetch the section details based on the provided IDs
         const section = await prisma.section.findUnique({
             where: { id: sectionId },
