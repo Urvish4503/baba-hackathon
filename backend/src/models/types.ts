@@ -1,6 +1,15 @@
 import { z } from "zod";
 
-//
+// quiz schema
+const questionSchema = z.object({
+    question: z.string(),
+    options: z.array(z.string()),
+    answer: z.string(),
+});
+
+const questionsSchema = z.array(questionSchema);
+
+// secion detail
 const sectionDetailSchema = z.object({
     courseId: z.number(),
     moduleId: z.number(),
@@ -55,6 +64,8 @@ type moduleType = z.infer<typeof moduleSchema>;
 type courseSummaryType = z.infer<typeof courseSummarySchema>;
 type createFacultyType = z.infer<typeof createFacultySchema>;
 type SectionDetailType = z.infer<typeof sectionDetailSchema>;
+type QuestionType = z.infer<typeof questionSchema>;
+type QuestionsType = z.infer<typeof questionsSchema>;
 
 export {
     createCourseSchema,
@@ -65,4 +76,7 @@ export {
     createFacultyType,
     createFacultySchema,
     sectionDetailSchema,
+    questionsSchema,
+    QuestionType,
+    QuestionsType,
 };

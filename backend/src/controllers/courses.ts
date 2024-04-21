@@ -7,6 +7,8 @@ import {
     createFacultyType,
     createFacultySchema,
     sectionDetailSchema,
+    questionsSchema,
+    QuestionsType,
 } from "../models/types";
 import prisma from "../lib/prisma";
 
@@ -127,7 +129,7 @@ export const createCourse = async (req: Request, res: Response) => {
 
         const courseData: createCourseType = requestBody.data;
 
-        console.log(courseData);
+        //console.log(courseData);
 
         const createdCourse = await prisma.course.create({
             data: {
@@ -141,8 +143,8 @@ export const createCourse = async (req: Request, res: Response) => {
             },
         });
 
-        console.log("/n/n");
-        console.log("courseData.modules");
+        //console.log("/n/n");
+        //console.log("courseData.modules");
 
         for (const moduleData of courseData.modules) {
             const createdModule = await prisma.module.create({
@@ -151,8 +153,8 @@ export const createCourse = async (req: Request, res: Response) => {
                 },
             });
 
-            console.log("/n/n");
-            console.log("moduleData.sections");
+            //console.log("/n/n");
+            //console.log("moduleData.sections");
 
             // Step 3: Create sections for each module
             for (const sectionData of moduleData.sections) {
@@ -175,7 +177,7 @@ export const createCourse = async (req: Request, res: Response) => {
     }
 };
 
-// send quiz on based on Id
+// get quiz on based on Id
 export const getSectionDetails = async (req: Request, res: Response) => {
     try {
         const requestBody = sectionDetailSchema.safeParse(req.body);
@@ -210,6 +212,42 @@ export const getSectionDetails = async (req: Request, res: Response) => {
         }
     } catch (error) {
         console.error("Error fetching section details:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+// add quiz
+export const storeSectionDetails = async (req: Request, res: Response) => {
+    try {
+        const sectionId = parseInt(req.params.sectionId);
+        const questionsData = req.body as QuestionsType;
+
+        const validatedQuestions = questionsSchema.safeParse(questionsData);
+
+        if (!validatedQuestions.success) {
+            return res.status(400).json({
+                message: "Incorrect inputs",
+                errors: validatedQuestions.error.flatten(),
+            });
+        }
+
+        // Iterate over each question and store in the database
+        for (const question of validatedQuestions.data) {
+            await prisma.question.create({
+                data: {
+                    sectionId: sectionId,
+                    question: question.question,
+                    options: { set: question.options },
+                    answers: question.answer,
+                },
+            });
+        }
+
+        res.status(201).json({
+            message: "Questions and answers stored successfully",
+        });
+    } catch (error) {
+        console.error("Error storing section details:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 };
