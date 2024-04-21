@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { z } from "zod";
 import Modules from "./../componants/Module";
+import { useParams } from "react-router-dom";
 
 const SectionSchema = z.object({
     id: z.number(),
@@ -26,8 +27,14 @@ const CourseSchema = z.object({
 
 type Course = z.infer<typeof CourseSchema>;
 
-const CoursePage: React.FC<{ id: number }> = ({ id }) => {
+interface RouteParams {
+    [key: string]: string | undefined;
+    id: string;
+}
+
+const CoursePage: React.FC = () => {
     const [course, setCourse] = useState<Course | null>(null);
+    const { id } = useParams<RouteParams>();
 
     const getCourse = async () => {
         try {

@@ -1,15 +1,15 @@
 import { FC, useState } from "react";
 import { Link } from "react-router-dom";
 
-interface Module {
-    id: number;
-    subsections: Subsection[];
-}
-
-interface Subsection {
+interface Section {
     id: number;
     title: string;
-    videoUrl: string;
+    videoKey: string;
+}
+
+interface Module {
+    id: number;
+    sections: Section[];
 }
 
 interface ModulesProps {
@@ -59,7 +59,7 @@ const Modules: FC<ModulesProps> = ({ modules }: ModulesProps) => {
                             </div>
                             {openModuleId === module.id && (
                                 <div className="mt-4">
-                                    {module.subsections.map(subsection => (
+                                    {module.sections.map(subsection => (
                                         <div
                                             key={subsection.id}
                                             className="mb-4"
@@ -92,7 +92,7 @@ const Modules: FC<ModulesProps> = ({ modules }: ModulesProps) => {
                                                 <div className="mt-4">
                                                     <video
                                                         src={
-                                                            subsection.videoUrl
+                                                            subsection.videoKey
                                                         }
                                                         controls
                                                         className="w-full rounded-lg"
