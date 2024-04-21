@@ -8,20 +8,23 @@ const Login: FC = () => {
     const [password, setPassword] = useState("");
     const navigate = useNavigate()
 
-    const handleLogin = async(e: React.FormEvent<HTMLFormElement>) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle login logic here
-        console.log("Username:", email);
-        console.log("Password:", password);
-
-        const response=  await axios.post('http://localhost:8800/api/auth/signup',{
-                password,
-                email
-              },{
-                withCredentials: false,
-            })
-             localStorage.setItem("token",response.data.token)
-             navigate("/home")
+        const data = {
+            password,
+            email,
+        };
+        const response = await axios.post(
+            "http://127.0.0.1:8800/api/auth/signin",
+            data,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            },
+        );
+        localStorage.setItem("token", response.data.token);
+        navigate("/home");
     };
 
     return (

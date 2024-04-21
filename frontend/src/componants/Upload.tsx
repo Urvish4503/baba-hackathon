@@ -64,40 +64,58 @@ const Upload: FC = () => {
         setActiveSection(activeSection === sectionId ? null : sectionId);
     };
 
-    const handleVideoUpload = async (file: File, _subSecionId: number) => {
+    const handleVideoUpload = async (file: File) => {
+        console.log(`yoho`);
         if (!file) {
             // Display error message or handle case where no file is selected
             console.error("No file selected.");
             return;
         }
-
+        console.log(`here`);
         const key = `${Date.now()}`;
+        const formData = new FormData();
+        formData.append("video", file);
 
         const data = {
             Type: "video/mp4",
             key: key,
+            file: formData,
         };
+        console.log(`here`);
 
-        const url = await axios.post("http://localhost:8800/api/upload/video", {
+        const url = await axios.post(
+            "http://localhost:8800/api/upload/video",
             data,
-        });
-        console.log(url)
-
-
-        const formData = new FormData();
-
-        formData.append("video", file);
-
-        try {
-            const response = await axios.put(`${url}`, formData, {
+            {
                 headers: {
-                    "Content-Type": "multipart/form-data",
+                    "Content-Type": "application/json",
                 },
-            });
-            console.log("Upload successful!", response);
-        } catch (error) {
-            console.error("Error uploading file:", error);
-        }
+            },
+        );
+
+        console.log(url.data.url);
+
+        console.log(`here`);
+
+        console.log(`here`);
+
+        // try {
+        //     const response = await axios.put(`${url.data.url}`, formData, {
+        //         headers: {
+        //             "Content-Type": "application/octet-stream",
+        //             "Access-Control-Allow-Credentials": "true",
+        //             "Access-Control-Allow-Origin": "*",
+        //             "Access-Control-Allow-Methods":
+        //                 "GET, POST, PATCH, DELETE, PUT, OPTIONS",
+        //             "Access-Control-Allow-Headers":
+        //                 "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
+        //         },
+        //     });
+        //     console.log("Upload successful!", response);
+        // } catch (error) {
+        //     console.error("Error uploading file:", error);
+        // }
+        // console.log(`here`);
     };
 
     return (
@@ -218,7 +236,7 @@ const Upload: FC = () => {
                                     <h3 className="text-ctp-text font-bold">
                                         Section {section.id}
                                     </h3>
-                                 
+
                                     <span
                                         className={`text-ctp-blue ${
                                             activeSection === section.id
@@ -231,7 +249,6 @@ const Upload: FC = () => {
                                 </div>
                                 {activeSection === section.id && (
                                     <div className="bg-ctp-surface1 p-4 rounded">
-                                        
                                         <input
                                             type="text"
                                             placeholder="Enter section title"
@@ -337,7 +354,6 @@ const Upload: FC = () => {
                                                                     handleVideoUpload(
                                                                         e.target
                                                                             .files[0],
-                                                                        subSection.id,
                                                                     );
                                                                 }
                                                             }}

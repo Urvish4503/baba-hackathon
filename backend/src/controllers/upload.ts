@@ -26,11 +26,11 @@ export const uploadImage = async (req: Request, res: Response, err: any) => {
     const command = new PutObjectCommand({
         Bucket: BUCKET,
         Key: userDetails.key,
-        ContentType: userDetails.Type,
+        ContentType: "video/mp4",
     });
 
-    const url = await getSignedUrl(s3,command);
-    return url;
+    const url = await getSignedUrl(s3, command);
+    res.status(200).json({ url });
     // try {
     //     await s3.send(command);
     //     return { key };
@@ -60,15 +60,16 @@ export const uploadVideo = async (req: Request, res: Response, err: any) => {
     const command = new PutObjectCommand({
         Bucket: BUCKET,
         Key: userDetails.key,
+        Body: userDetails.file.buffer,
         ContentType: userDetails.Type,
     });
-    const url = await getSignedUrl(s3,command);
-    return url;
+    // const url = await getSignedUrl(s3,command);
+    // res.status(200).json({url})
 
-    // try {
-    //     await s3.send(command);
-    //     return { key };
-    // } catch (error) {
-    //     return { error };
-    // }
+    try {
+        await s3.send(command);
+        res.status(200).json(userDetails.key);
+    } catch (error) {
+        return { error };
+    }
 };

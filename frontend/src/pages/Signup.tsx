@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useState, FC } from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 const Sighup: FC = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     // const [confirmPassword, setConfirmPassword] = useState("");
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     // const handleRegister = async(e: React.FormEvent<HTMLFormElement>) => {
     //     e.preventDefault();
@@ -18,25 +18,31 @@ const Sighup: FC = () => {
     //     console.log("Password:", password);
     // };
 
-    const handlesubmit = async ()=>{
-            const response=  await axios.post('http://127.0.0.1:8800/api/auth/signup',{
-                username,
-                password,
-                email
-              },{
-                withCredentials: false,
-            })
-             localStorage.setItem("token",response.data.token)
-             navigate("/home")
-            }
-
-
+    const handlesubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const data = {
+            username,
+            password,
+            email,
+        };
+        const response = await axios.post(
+            "http://127.0.0.1:8800/api/auth/signup",
+            data,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            },
+        );
+        localStorage.setItem("token", response.data.token);
+        navigate("/home");
+    };
 
     return (
         <div className="flex justify-center items-center h-screen bg-logi-page-two text-ctp-text">
             <div className="w-96 p-8 bg-ctp-surface0 rounded-lg shadow-md">
                 <h1 className="text-2xl font-bold mb-6 text-center">Sign Up</h1>
-                <form 
+                <form
                 // onSubmit={handleRegister}
                 >
                     <div className="mb-4">
