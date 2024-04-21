@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useState, FC } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Section {
     id: number;
-    subSections: SubSection[];
+    sections: SubSection[];
 }
 
 interface SubSection {
@@ -16,27 +17,40 @@ const Upload: FC = () => {
     const [sections, setSections] = useState<Section[]>([]);
     const [activeSection, setActiveSection] = useState<number | null>(null);
     const [courseTitle, setCourseTitle] = useState<string>("");
-    const [courseThumbnail, setCourseThumbnail] = useState<File | null>(null);
+    const [courseThumbnail, setCourseThumbnail] = useState<string | null>(null);
     const [courseDescription, setCourseDescription] = useState<string>("");
     const [courseLevel, setCourseLevel] = useState<string>("");
     const [courseCategory, setCourseCategory] = useState<string>("");
     const [courseOutcomes, setOutcomes] = useState<string>("");
+    const navigate = useNavigate();
 
-    const baba = () => {
+    const baba = async () => {
         const output = {
             title: courseTitle,
             category: courseCategory,
-            decription: courseDescription,
-            outcome: courseOutcomes,
-            module: sections,
+            description: courseDescription,
+            outcomes: courseOutcomes,
+            level: courseLevel,
+            thumbnailKey: courseThumbnail,
+            modules: sections,
         };
         console.log(JSON.stringify(output));
+        try {
+            const response = await axios.post(
+                "http://localhost:8800/api/course/add",
+                output,
+            );
+            console.log(response.data);
+            navigate("/home");
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     const addSection = () => {
         const newSection: Section = {
             id: sections.length + 1,
-            subSections: [],
+            sections: [],
         };
         setSections([...sections, newSection]);
         setActiveSection(newSection.id);
@@ -46,13 +60,13 @@ const Upload: FC = () => {
         const updatedSections = sections.map(section => {
             if (section.id === sectionId) {
                 const newSubSection: SubSection = {
-                    id: section.subSections.length + 1,
+                    id: section.sections.length + 1,
                     title: "",
                     videoKey: "",
                 };
                 return {
                     ...section,
-                    subSections: [...section.subSections, newSubSection],
+                    sections: [...section.sections, newSubSection],
                 };
             }
             return section;
@@ -64,7 +78,43 @@ const Upload: FC = () => {
         setActiveSection(activeSection === sectionId ? null : sectionId);
     };
 
-    const handleVideoUpload = async (file: File) => {
+    const handleImageUpload = async (file: File) => {
+        if (!file) {
+            // Display error message or handle case where no file is selected
+            console.error("No file selected.");
+            return;
+        }
+
+        const key = `${Date.now()}`;
+        setCourseThumbnail(key);
+        const formData = new FormData();
+        formData.append("video", file);
+
+        const validFileTypes =
+            "image/jpg" || "image/jpeg" || "image/png" || "video/mp4";
+
+        const data = {
+            Type: validFileTypes,
+            key: key,
+            file: formData,
+        };
+        const url = await axios.post(
+            "http://localhost:8800/api/upload/video",
+            data,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            },
+        );
+        console.log(url.data.url);
+    };
+
+    const handleVideoUpload = async (
+        file: File,
+        secId: number,
+        subSecId: number,
+    ) => {
         console.log(`yoho`);
         if (!file) {
             // Display error message or handle case where no file is selected
@@ -73,6 +123,25 @@ const Upload: FC = () => {
         }
         console.log(`here`);
         const key = `${Date.now()}`;
+
+        setSections(s =>
+            s.map(sec =>
+                sec.id === secId
+                    ? {
+                          ...sec,
+                          sections: sec.sections.map(subSec =>
+                              subSec.id === subSecId
+                                  ? {
+                                        ...subSec,
+                                        videoKey: key,
+                                    }
+                                  : subSec,
+                          ),
+                      }
+                    : sec,
+            ),
+        );
+
         const formData = new FormData();
         formData.append("video", file);
 
@@ -146,11 +215,11 @@ const Upload: FC = () => {
                                     e.target.files &&
                                     e.target.files.length > 0
                                 ) {
-                                    setCourseThumbnail(e.target.files[0]);
+                                    handleImageUpload(e.target.files[0]);
                                 }
                             }}
                         />
-                        {courseThumbnail && (
+                        {/* {courseThumbnail && (
                             <div className="mt-2">
                                 <img
                                     src={URL.createObjectURL(courseThumbnail)}
@@ -158,7 +227,7 @@ const Upload: FC = () => {
                                     className="max-w-full h-auto"
                                 />
                             </div>
-                        )}
+                        )} */}
                     </div>
                     <textarea
                         placeholder="Enter course description"
@@ -217,7 +286,7 @@ const Upload: FC = () => {
                             className="bg-ctp-blue text-white font-bold py-2 px-4 rounded mb-4"
                             onClick={addSection}
                         >
-                            Add Section
+                            Add Module
                         </button>
                     </div>
                     <div>
@@ -234,7 +303,7 @@ const Upload: FC = () => {
                                     }
                                 >
                                     <h3 className="text-ctp-text font-bold">
-                                        Section {section.id}
+                                        Module {section.id}
                                     </h3>
 
                                     <span
@@ -276,9 +345,9 @@ const Upload: FC = () => {
                                                 addSubSection(section.id)
                                             }
                                         >
-                                            Add Sub-Section
+                                            Add Section
                                         </button>
-                                        {section.subSections.map(subSection => (
+                                        {section.sections.map(subSection => (
                                             <div
                                                 key={subSection.id}
                                                 className="mb-4"
@@ -300,7 +369,7 @@ const Upload: FC = () => {
                                                                     section.id
                                                                 ) {
                                                                     const updatedSubSections =
-                                                                        s.subSections.map(
+                                                                        s.sections.map(
                                                                             ss => {
                                                                                 if (
                                                                                     ss.id ===
@@ -318,7 +387,7 @@ const Upload: FC = () => {
                                                                         );
                                                                     return {
                                                                         ...s,
-                                                                        subSections:
+                                                                        sections:
                                                                             updatedSubSections,
                                                                     };
                                                                 }
@@ -354,11 +423,13 @@ const Upload: FC = () => {
                                                                     handleVideoUpload(
                                                                         e.target
                                                                             .files[0],
+                                                                        section.id,
+                                                                        subSection.id,
                                                                     );
                                                                 }
                                                             }}
                                                         />
-                                                        {subSection.videoKey && (
+                                                        {/* {subSection.videoKey && (
                                                             <div className="mt-2">
                                                                 <video
                                                                     src={
@@ -368,7 +439,7 @@ const Upload: FC = () => {
                                                                     className="max-w-full h-auto"
                                                                 />
                                                             </div>
-                                                        )}
+                                                        )} */}
                                                     </div>
                                                 </div>
                                             </div>
